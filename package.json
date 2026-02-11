@@ -1,6 +1,7 @@
 {
-  "name": "studioarts",
-  "version": "0.1.0",
+  "name": "artstudio",
+  "version": "1.0.0",
+  "description": "Персональный сайт для художницы с системой заказов, галереей и чатом",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,10 +9,28 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "keywords": [
+    "nextjs",
+    "supabase",
+    "art",
+    "portfolio",
+    "orders",
+    "chat",
+    "gallery"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
   "dependencies": {
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.47.10",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^11.15.0",
+    "lucide-react": "^0.468.0",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
