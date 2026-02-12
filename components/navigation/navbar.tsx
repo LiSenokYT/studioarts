@@ -12,7 +12,7 @@ import { createClient } from '@/lib/supabase/client';
 export const Navbar = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, profile } = useAuthStore();
+  const { user, profile, loading } = useAuthStore();
   const supabase = createClient();
 
   const handleSignOut = async () => {
@@ -89,7 +89,9 @@ export const Navbar = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            {user ? (
+            {loading ? (
+              <div className="w-8 h-8 border-2 border-[#A682E6] border-t-transparent rounded-full animate-spin" />
+            ) : user ? (
               <>
                 <Link href="/dashboard">
                   <Button variant="ghost" size="sm">
@@ -149,7 +151,11 @@ export const Navbar = () => {
                 </div>
               </Link>
             ))}
-            {user ? (
+            {loading ? (
+              <div className="flex justify-center py-4">
+                <div className="w-8 h-8 border-2 border-[#A682E6] border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : user ? (
               <>
                 <Link href="/dashboard">
                   <Button variant="ghost" size="sm" className="w-full">

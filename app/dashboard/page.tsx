@@ -9,16 +9,16 @@ import { ArtistDashboard } from '@/components/dashboard/artist-dashboard';
 import { AdminDashboard } from '@/components/dashboard/admin-dashboard';
 
 export default function DashboardPage() {
-  const { user, profile } = useAuthStore();
+  const { user, profile, loading } = useAuthStore();
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       router.push('/auth/login');
     }
-  }, [user, router]);
+  }, [user, loading, router]);
 
-  if (!user || !profile) {
+  if (loading || !user || !profile) {
     return (
       <div className="container mx-auto px-4 py-12 min-h-[calc(100vh-5rem)] flex items-center justify-center">
         <Loader2 className="w-12 h-12 animate-spin text-[#A682E6]" />

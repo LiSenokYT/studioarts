@@ -34,7 +34,7 @@ const features = [
 
 export default function Home() {
   const [testimonials, setTestimonials] = useState<any[]>([]);
-  const { user } = useAuthStore();
+  const { user, loading } = useAuthStore();
   const supabase = createClient();
 
   useEffect(() => {
@@ -116,8 +116,8 @@ export default function Home() {
                 Посмотреть галерею
               </Button>
             </Link>
-            <Link href={user ? "/dashboard/orders/new" : "/auth/register"}>
-              <Button variant="secondary" size="lg">
+            <Link href={loading ? "#" : (user ? "/dashboard/orders/new" : "/auth/register")}>
+              <Button variant="secondary" size="lg" disabled={loading}>
                 <Sparkles className="w-5 h-5 mr-2" />
                 Заказать работу
               </Button>
@@ -289,8 +289,8 @@ export default function Home() {
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Link href={user ? "/dashboard/orders/new" : "/auth/register"}>
-                      <Button size="lg">
+                    <Link href={loading ? "#" : (user ? "/dashboard/orders/new" : "/auth/register")}>
+                      <Button size="lg" disabled={loading}>
                         <Sparkles className="w-5 h-5" />
                         Начать сейчас
                       </Button>
@@ -565,8 +565,8 @@ export default function Home() {
               <Link href="/gallery" className="text-[#2D1B4E] hover:text-[#1a0a2e] font-semibold transition-colors" style={{ textShadow: '0 1px 3px rgba(255, 255, 255, 0.8)' }}>
                 Галерея
               </Link>
-              <Link href={user ? "/dashboard/orders/new" : "/auth/register"} className="text-[#2D1B4E] hover:text-[#1a0a2e] font-semibold transition-colors" style={{ textShadow: '0 1px 3px rgba(255, 255, 255, 0.8)' }}>
-                {user ? "Заказать" : "Регистрация"}
+              <Link href={loading ? "#" : (user ? "/dashboard/orders/new" : "/auth/register")} className="text-[#2D1B4E] hover:text-[#1a0a2e] font-semibold transition-colors" style={{ textShadow: '0 1px 3px rgba(255, 255, 255, 0.8)' }}>
+                {loading ? "..." : (user ? "Заказать" : "Регистрация")}
               </Link>
             </div>
           </div>

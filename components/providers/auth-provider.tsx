@@ -5,7 +5,7 @@ import { useAuthStore } from '@/lib/store/auth-store';
 import { useEffect } from 'react';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { setUser, setProfile } = useAuthStore();
+  const { setUser, setProfile, setLoading } = useAuthStore();
   const supabase = createClient();
 
   useEffect(() => {
@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const initAuth = async () => {
       try {
+        setLoading(true);
         const { data: { session } } = await supabase.auth.getSession();
         
         if (session?.user && mounted) {
@@ -27,11 +28,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           if (profile && mounted) {
             setProfile(profile);
           }
+        } else if (mounted) {
+          setUser(null);
+          setProfile(null);
         }
       } catch (error) {
         // Ignore abort errors
         if (error instanceof Error && error.name !== 'AbortError') {
           console.error('Auth init error:', error);
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
         }
       }
     };
@@ -64,6 +72,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           if (error instanceof Error && error.name !== 'AbortError') {
             console.error('Auth state change error:', error);
           }
+        } finally {
+          if (mounted) {
+            setLoading(false);
+          }
         }
       }
     );
@@ -72,7 +84,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [setUser, setProfile, supabase]);
+  }, [setUser, setProfile, setLoading, supabase]);
 
   return <>{children}</>;
 };
