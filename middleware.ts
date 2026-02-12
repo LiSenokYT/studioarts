@@ -33,16 +33,19 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Refresh session - this is important for maintaining session on page refresh
-  await supabase.auth.getUser();
+  // Refresh session if user exists
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Redirect authenticated users away from auth pages
+  if (user && (request.nextUrl.pathname.startsWith('/auth/login') || request.nextUrl.pathname.startsWith('/auth/register'))) {
+    const redirectUrl = new URL('/dashboard', request.url);
+    return NextResponse.redirect(redirectUrl);
+  }
 
   // Only redirect to login if accessing dashboard and no valid user
-  if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      const redirectUrl = new URL('/auth/login', request.url);
-      return NextResponse.redirect(redirectUrl);
-    }
+  if (request.nextUrl.pathname.startsWith('/dashboard') && !user) {
+    const redirectUrl = new URL('/auth/login', request.url);
+    return NextResponse.redirect(redirectUrl);
   }
 
   return response;

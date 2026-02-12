@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Sparkles, Palette, Clock, Heart, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { useAuthStore } from '@/lib/store/auth-store';
 
 const features = [
   {
@@ -33,6 +34,7 @@ const features = [
 
 export default function Home() {
   const [testimonials, setTestimonials] = useState<any[]>([]);
+  const { user } = useAuthStore();
   const supabase = createClient();
 
   useEffect(() => {
@@ -114,7 +116,7 @@ export default function Home() {
                 Посмотреть галерею
               </Button>
             </Link>
-            <Link href="/auth/register">
+            <Link href={user ? "/dashboard/orders/new" : "/auth/register"}>
               <Button variant="secondary" size="lg">
                 <Sparkles className="w-5 h-5 mr-2" />
                 Заказать работу
@@ -287,7 +289,7 @@ export default function Home() {
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Link href="/auth/register">
+                    <Link href={user ? "/dashboard/orders/new" : "/auth/register"}>
                       <Button size="lg">
                         <Sparkles className="w-5 h-5" />
                         Начать сейчас
@@ -563,8 +565,8 @@ export default function Home() {
               <Link href="/gallery" className="text-[#2D1B4E] hover:text-[#1a0a2e] font-semibold transition-colors" style={{ textShadow: '0 1px 3px rgba(255, 255, 255, 0.8)' }}>
                 Галерея
               </Link>
-              <Link href="/auth/register" className="text-[#2D1B4E] hover:text-[#1a0a2e] font-semibold transition-colors" style={{ textShadow: '0 1px 3px rgba(255, 255, 255, 0.8)' }}>
-                Регистрация
+              <Link href={user ? "/dashboard/orders/new" : "/auth/register"} className="text-[#2D1B4E] hover:text-[#1a0a2e] font-semibold transition-colors" style={{ textShadow: '0 1px 3px rgba(255, 255, 255, 0.8)' }}>
+                {user ? "Заказать" : "Регистрация"}
               </Link>
             </div>
           </div>
