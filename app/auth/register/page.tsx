@@ -133,11 +133,19 @@ export default function RegisterPage() {
 
             {error && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-2xl shadow-lg"
               >
-                {error}
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    !
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold text-red-800 mb-1">Ошибка регистрации</p>
+                    <p className="text-red-700 text-sm">{error}</p>
+                  </div>
+                </div>
               </motion.div>
             )}
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
 import { TextareaHTMLAttributes, forwardRef, useState } from 'react';
 
@@ -10,28 +9,25 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, label, error, ...props }, ref) => {
+  ({ className, label, error, id, name, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
+    const textareaId = id || name || `textarea-${Math.random().toString(36).substr(2, 9)}`;
 
     return (
       <div className="w-full">
         {label && (
-          <motion.label
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
+          <label
+            htmlFor={textareaId}
             className="block text-sm font-medium text-gray-700 mb-2"
           >
             {label}
-          </motion.label>
+          </label>
         )}
-        <motion.div
-          animate={{
-            scale: isFocused ? 1.02 : 1,
-          }}
-          transition={{ duration: 0.2 }}
-        >
+        <div>
           <textarea
             ref={ref}
+            id={textareaId}
+            name={name || textareaId}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             className={cn(
@@ -45,15 +41,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             )}
             {...props}
           />
-        </motion.div>
+        </div>
         {error && (
-          <motion.p
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-1 text-sm text-red-500"
-          >
+          <p className="mt-1 text-sm text-red-500">
             {error}
-          </motion.p>
+          </p>
         )}
       </div>
     );

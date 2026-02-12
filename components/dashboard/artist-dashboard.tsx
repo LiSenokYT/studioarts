@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { createClient } from '@/lib/supabase/client';
@@ -47,8 +47,6 @@ export const ArtistDashboard = () => {
 
       if (data && mounted) {
         setOrders(data);
-      }
-      if (mounted) {
         setLoading(false);
       }
     };
@@ -78,12 +76,12 @@ export const ArtistDashboard = () => {
     };
   }, [filter, supabase]);
 
-  const stats = useMemo(() => ({
+  const stats = {
     total: orders.length,
     pending: orders.filter((o) => o.status === 'pending').length,
     inProgress: orders.filter((o) => ['discussing', 'payment_pending', 'in_progress'].includes(o.status)).length,
     completed: orders.filter((o) => o.status === 'completed').length,
-  }), [orders]);
+  };
 
   return (
     <div className="container mx-auto px-4 py-12">

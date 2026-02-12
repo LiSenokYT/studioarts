@@ -23,6 +23,7 @@ export const Navbar = () => {
   const navLinks = [
     { href: '/', label: 'Главная' },
     { href: '/gallery', label: 'Галерея' },
+    { href: '/pricing', label: 'Цены' },
     ...(user ? [{ href: '/dashboard', label: 'Личный кабинет' }] : []),
   ];
 

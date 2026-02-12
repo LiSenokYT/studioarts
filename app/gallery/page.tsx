@@ -67,6 +67,8 @@ export default function GalleryPage() {
                     src={item.thumbnail_url || item.image_url}
                     alt={item.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={items.indexOf(item) < 3}
                     className="object-cover"
                   />
                 </div>
@@ -102,6 +104,7 @@ export default function GalleryPage() {
                   src={selectedItem.image_url}
                   alt={selectedItem.title}
                   fill
+                  sizes="(max-width: 1200px) 100vw, 1200px"
                   className="object-contain"
                 />
               </div>

@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
 import { InputHTMLAttributes, forwardRef, useState } from 'react';
 
@@ -10,28 +9,25 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, ...props }, ref) => {
+  ({ className, label, error, id, name, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
+    const inputId = id || name || `input-${Math.random().toString(36).substr(2, 9)}`;
 
     return (
       <div className="w-full">
         {label && (
-          <motion.label
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
+          <label
+            htmlFor={inputId}
             className="block text-sm font-medium text-gray-700 mb-2"
           >
             {label}
-          </motion.label>
+          </label>
         )}
-        <motion.div
-          animate={{
-            scale: isFocused ? 1.02 : 1,
-          }}
-          transition={{ duration: 0.2 }}
-        >
+        <div>
           <input
             ref={ref}
+            id={inputId}
+            name={name || inputId}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             className={cn(
@@ -45,15 +41,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
             {...props}
           />
-        </motion.div>
+        </div>
         {error && (
-          <motion.p
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-1 text-sm text-red-500"
-          >
+          <p className="mt-1 text-sm text-red-500">
             {error}
-          </motion.p>
+          </p>
         )}
       </div>
     );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -329,10 +329,10 @@ export default function OrderDetailPage() {
     );
   }
 
-  const canChat = useMemo(() => ['discussing', 'payment_pending', 'in_progress'].includes(order?.status || ''), [order?.status]);
-  const isArtistOrAdmin = useMemo(() => profile?.role === 'artist' || profile?.role === 'admin', [profile?.role]);
-  const isCancelled = useMemo(() => order?.status === 'cancelled', [order?.status]);
-  const isCompleted = useMemo(() => order?.status === 'completed', [order?.status]);
+  const canChat = ['discussing', 'payment_pending', 'in_progress'].includes(order.status);
+  const isArtistOrAdmin = profile?.role === 'artist' || profile?.role === 'admin';
+  const isCancelled = order.status === 'cancelled';
+  const isCompleted = order.status === 'completed';
 
   return (
     <div className="container mx-auto px-4 py-12">
